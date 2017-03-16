@@ -53,13 +53,12 @@
     this.watchers[key].push(fn)
   }
 
-  Observer.prototype.$emit = function () {
-    const key = [].shift.call(arguments)
-    const data = [].slice.call(arguments)
+  Observer.prototype.$emit = function (key) {
+    const args = [].slice.call(arguments, 1)
     const fns = this.watchers[key]
     if (!fns || !fns.length) return false
     fns.forEach(function (fn) {
-      fn(data || {})
+      fn(...args)
     })
   }
 
